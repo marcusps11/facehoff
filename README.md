@@ -1,2 +1,0 @@
-# facehoff
-Placeholder Images 
