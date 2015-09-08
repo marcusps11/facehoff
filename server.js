@@ -4,6 +4,7 @@ var express     = require('express');
 var app         = express();
 var im          = require("imagemagick");
 var bodyParser  = require("body-parser");
+var path         = require('path');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -20,12 +21,17 @@ app.get("/:width/:height", function(req, res) {
 
   var width = parseInt(req.params.width);
   var height = parseInt(req.params.height);
+  var filename = 'output_'+ width +'_'+ height +'.png';
+  var filePath = path.join(__dirname, './public/' + filename);
+  res.writeHead(200, {"Content-Type" : "image/png"});
+
 
   var randomImage = pictureArray[Math.floor(Math.random()*pictureArray.length)];
   var randomImageLarge = largePicture[Math.floor(Math.random()*largePicture.length)];
 
-  getPicture(width, height, randomImage, randomImageLarge);
 
+
+  getPicture(width, height, randomImage, randomImageLarge);
 
   function getPicture(width, height, randomImageLarge, randomImage){
     if (width > 200 ){
@@ -38,7 +44,8 @@ app.get("/:width/:height", function(req, res) {
         height: parseInt(req.params.height)
       }, function(err, stdout, stderr){
         if (err) throw err
-          var img = fs.writeFile('./public/output_'+ width +'_'+ height +'.png', stdout, 'binary');
+        fs.writeFile('./public/' + filename, stdout, 'binary');
+        fs.createReadStream(filePath).pipe(res);
       });
 
     } else {
