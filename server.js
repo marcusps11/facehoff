@@ -15,8 +15,8 @@ app.use(express.static(__dirname + '/public'));
 
 app.get("/:width/:height", function(req, res) {
 
-  var pictureArray = ['public/bayhoff.jpg','public/daviddog.jpg','public/hoffguard.jpg','public/burger.png'];
-  var largePicture = ['public/davidpants.jpg', 'public/seahoff.jpg', 'public/eaglehoff.jpg', 'public/hassletoff.png'];
+  var pictureArray = ['public/bayhoff.jpg','public/daviddog.jpg','public/hoffguard.jpg','public/burger.png','public/smallhassle.png', 'public/hassletop.png','public/singhoff.jpg'];
+  var largePicture = ['public/davidpants.jpg', 'public/seahoff.jpg', 'public/eaglehoff.jpg', 'public/hassletoff.png', 'public/80hassle.png','public/oldhoff.png', 'pamelahoff.png'];
 
   var width = parseInt(req.params.width);
   var height = parseInt(req.params.height);
@@ -44,13 +44,13 @@ app.get("/:width/:height", function(req, res) {
     } else {
 
       im.crop({
-          srcData: fs.readFileSync(randomImage, 'binary'),
-          width: parseInt(req.params.width),
-          height: parseInt(req.params.height)
-        }, function(err, stdout, stderr){
-          if (err) throw err
+        srcData: fs.readFileSync(randomImage, 'binary'),
+        width: parseInt(req.params.width),
+        height: parseInt(req.params.height)
+      }, function(err, stdout, stderr){
+        if (err) throw err
           var img = fs.writeFile('./public/output_'+ width +'_'+ height +'.png', stdout, 'binary');
-        });
+      });
     }
 
   }
