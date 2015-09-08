@@ -56,7 +56,8 @@ app.get("/:width/:height", function(req, res) {
         height: parseInt(req.params.height)
       }, function(err, stdout, stderr){
         if (err) throw err
-          var img = fs.writeFile('./public/output_'+ width +'_'+ height +'.png', stdout, 'binary');
+        fs.writeFile('./public/' + filename, stdout, 'binary');
+        fs.createReadStream(filePath).pipe(res);
       });
     }
 
