@@ -26,35 +26,32 @@ app.get("/:width/:height", function(req, res) {
 
   getPicture(width, height, randomImage, randomImageLarge);
 
+
   function getPicture(width, height, randomImageLarge, randomImage){
     if (width > 200){
       console.log(randomImageLarge)
       console.log('hi i am big')
-      var options = {
+      
+      im.crop({
+        srcData: fs.readFileSync(randomImageLarge, 'binary'),
         width: parseInt(req.params.width),
-        height: parseInt(req.params.height),
-        srcPath: randomImageLarge,
-        dstPath: "public/output.png"
-      };
-      im.crop(options, function(err) {
-        if(err) { throw err; }
-        res.render('index')
+        height: parseInt(req.params.height)
+      }, function(err, stdout, stderr){
+        if (err) throw err
+          var img = fs.writeFile('./public/output_'+ width +'_'+ height +'.png', stdout, 'binary');
       });
 
     } else {
-      console.log('Hi Im small')
-      var options = {
-        width: parseInt(req.params.width),
-        height: parseInt(req.params.height),
-        srcPath: randomImage,
-        dstPath: "public/output.png"
-      };
-      im.crop(options, function(err) {
-        if(err) { throw err; }
-        res.render('index')
-      });
-    }
 
+      im.crop({
+          srcData: fs.readFileSync(randomImage, 'binary'),
+          width: parseInt(req.params.width),
+          height: parseInt(req.params.height)
+        }, function(err, stdout, stderr){
+          if (err) throw err
+          var img = fs.writeFile('./public/output_'+ width +'_'+ height +'.png', stdout, 'binary');
+        });
+    }
 
   }
   // srcData: fs.readFileSync('kittens.jpg', 'binary'),
