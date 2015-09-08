@@ -15,8 +15,8 @@ app.use(express.static(__dirname + '/public'));
 
 app.get("/:width/:height", function(req, res) {
 
-  var pictureArray = ['public/bayhoff.jpg','public/daviddog.jpg'];
-  var largePicture = ['public/davidpants.jpg', 'public/seahoff.jpg'];
+  var pictureArray = ['public/bayhoff.jpg','public/daviddog.jpg','public/hoffguard.jpg','public/burger.png'];
+  var largePicture = ['public/davidpants.jpg', 'public/seahoff.jpg', 'public/eaglehoff.jpg', 'public/hassletoff.png'];
 
   var width = parseInt(req.params.width);
   var height = parseInt(req.params.height);
@@ -28,7 +28,7 @@ app.get("/:width/:height", function(req, res) {
 
 
   function getPicture(width, height, randomImageLarge, randomImage){
-    if (width > 200){
+    if (width > 200 ){
       console.log(randomImageLarge)
       console.log('hi i am big')
       
