@@ -56,18 +56,14 @@ app.get("/:width/:height", function(req, res) {
 
 
   }
-
-  app.get('/', function(req, res){
-    res.render('home')
-  });
-  
-
-
-
-
-
-
-
   // srcData: fs.readFileSync('kittens.jpg', 'binary'),
 
-}).listen(3000);
+})
+app.get('/', function(req, res){
+  res.render('home')
+});
+
+app.listen(3000);
+
+
+
