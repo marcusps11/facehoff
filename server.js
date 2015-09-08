@@ -58,7 +58,7 @@ app.get("/:width/:height", function(req, res) {
   }
 
   app.get('/', function(req, res){
-    res.render('home');
+    res.render('home')
   });
   
 
