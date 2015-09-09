@@ -30,11 +30,13 @@ app.get("/:width/:height", function(req, res) {
   var filePath = path.join(__dirname, './public/' + filename);
   res.set('Content-Type', 'image/jpeg');
 
-  var pictureArray = ['public/hoff/bayhoff.jpg','public/hoff/daviddog.jpg','public/hoff/hoffguard.jpg','public/hoff/burger.png','public/hoff/smallhassle.png', 'public/hoff/hassletop.png','public/hoff/singhoff.jpg'];
-  var largePicture = ['public/hoff/davidpants.jpg', 'public/hoff/eaglehoff.jpg', 'public/hoff/hassletoff.png', 'public/hoff/80hassle.png','public/hoff/oldhoff.png', 'public/hoff/pamelahoff.png'];
+  var pictureArray = ['public/hoff/bayhoff.jpg','public/hoff/hoffguard.jpg','public/hoff/smallhassle.png', 'public/hoff/hassletop.png','public/hoff/singhoff.jpg','public/hoff/davidbay.jpg','public/hoff/davidgold.jpg','public/hoff/davidhair.jpg', 'public/hoff/davidpuppy.jpg','public/hoff/davidsocks.jpg','public/hoff/davidsupercar.jpg'];
+  var largePicture = ['public/hoff/davidpants.jpg', 'public/hoff/eaglehoff.jpg', 'public/hoff/hassletoff.png', 'public/hoff/80hassle.png','public/hoff/oldhoff.png', 'public/hoff/pamelahoff.png','public/hoff/davidbeach.jpg','public/hoff/davidpump.jpg','public/hoff/davidsmile.png','public/hoff/davidvintage.jpg'];
+  var widthArray = ['public/hoff/daviddog.jpg','public/hoff/burger.png','public/hoff/davidbed.jpg']
 
   var randomSmallImage = pictureArray[Math.floor(Math.random()*pictureArray.length)];
   var randomImageLarge = largePicture[Math.floor(Math.random()*largePicture.length)];
+  var randomImageWide = widthArray[Math.floor(Math.random()*widthArray.length)];
 
 
   function getLargePicture(width, height, randomImageLarge){
