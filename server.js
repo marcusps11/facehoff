@@ -2,7 +2,7 @@ var http        = require("http");
 var fs          = require('fs');
 var express     = require('express');
 var app         = express();
-var im          = require("imagemagick");
+var gm          = require('gm').subClass({imageMagick: true});
 var bodyParser  = require("body-parser");
 var path        = require('path');
 
@@ -28,45 +28,49 @@ app.get("/:width/:height", function(req, res) {
   var height = parseInt(req.params.height);
   var filename = 'output_'+ width +'_'+ height +'.png';
   var filePath = path.join(__dirname, './public/' + filename);
-  // res.writeHead(200, {"Content-Type" : "image/png"});
+  res.set('Content-Type', 'image/jpeg');
 
   var pictureArray = ['public/hoff/bayhoff.jpg','public/hoff/daviddog.jpg','public/hoff/hoffguard.jpg','public/hoff/burger.png','public/hoff/smallhassle.png', 'public/hoff/hassletop.png','public/hoff/singhoff.jpg'];
-  var largePicture = ['public/hoff/davidpants.jpg', 'public/hoff/seahoff.jpg', 'public/hoff/eaglehoff.jpg', 'public/hoff/hassletoff.png', 'public/hoff/80hassle.png','public/hoff/oldhoff.png', 'public/hoff/pamelahoff.png'];
+  var largePicture = ['public/hoff/davidpants.jpg', 'public/hoff/eaglehoff.jpg', 'public/hoff/hassletoff.png', 'public/hoff/80hassle.png','public/hoff/oldhoff.png', 'public/hoff/pamelahoff.png'];
 
   var randomSmallImage = pictureArray[Math.floor(Math.random()*pictureArray.length)];
   var randomImageLarge = largePicture[Math.floor(Math.random()*largePicture.length)];
 
-  function getLargePicture(width, height, randomImageLarge){
-    console.log(randomImageLarge)
-    console.log('hi i am big')
 
-    im.crop({
-      srcData: fs.readFileSync(randomImageLarge, 'binary'),
-      width: parseInt(req.params.width),
-      height: parseInt(req.params.height),
-      gravity: 'center'
-    }, function(err, stdout, stderr){
-      if (err) throw err
-        fs.writeFile('./public/' + filename, stdout, 'binary');
-      fs.createReadStream(filePath).pipe(res);
+  function getLargePicture(width, height, randomImageLarge){
+    // console.log(randomImageLarge)
+    // console.log('hi i am big')
+
+    var readStream = fs.createReadStream(randomImageLarge);
+    gm(readStream)
+    .resize(width, height, '^')
+    .gravity('North')
+    .crop(width, height)
+    .stream(function (err, stdout, stderr) {
+      if (err) throw err;
+      var writeStream = fs.createWriteStream('./public/' + filename);
+      stdout.pipe(res)
+      // console.log("done");
     });
   }
 
   function getSmallPicture(width, height, randomSmallImage){
-    console.log(randomSmallImage)
-    console.log('hi i am small')
+    // console.log(randomSmallImage)
+    // console.log('hi i am small')
 
-    im.crop({
-      srcData: fs.readFileSync(randomSmallImage, 'binary'),
-      width: parseInt(req.params.width),
-      height: parseInt(req.params.height),
-      gravity: 'center'
-    }, function(err, stdout, stderr){
-      if (err) throw err
-        fs.writeFile('./public/' + filename, stdout, 'binary');
-      fs.createReadStream(filePath).pipe(res);
+    var readStream = fs.createReadStream(randomSmallImage);
+    gm(readStream)
+    .resize(width, height, '^')
+    .gravity('North')
+    .crop(width, height)
+    .stream(function (err, stdout, stderr) {
+      if (err) throw err;
+      var writeStream = fs.createWriteStream('./public/' + filename);
+      stdout.pipe(res)
+      // console.log("done");
     });
   }
+
 
   if (width > 300 && height > 300) {
     getLargePicture(width, height, randomImageLarge)
